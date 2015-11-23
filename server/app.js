@@ -1,6 +1,7 @@
 "use strict";
 
 var express        = require('express');
+var app            = express();
 var path           = require('path');
 var favicon        = require('serve-favicon');
 var logger         = require('morgan');
@@ -10,11 +11,8 @@ var config         = require('config');
 var log            = require('./lib/logger');
 var sessionOptions = config.get("session");
 var session        = require('express-session');
-var MongoStore     = require('connect-mongo')(session);
-var app            = express();
-var passport       = require('passport');
-var User           = require('./models/user');
-var LocalStrategy  = require('passport-local').Strategy;
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, config.get('public.views')));
@@ -28,22 +26,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(session(sessionOptions));
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, config.get('public.static'))));
 
-app.use('/', require('./api/routes'));
-
-
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+require('./api/routes')(app);
 
 mongoose.connect(config.get('db'));
-
-sessionOptions.store = new MongoStore({mongooseConnection: mongoose.connection});
-
 mongoose.connection.on('error', function (err) {
   log.error('mongoose error: ', err);
 });

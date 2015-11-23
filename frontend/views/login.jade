@@ -1,0 +1,36 @@
+div(flex, layout="row", layout-align="center start")
+
+   div(flex-sm="100" flex-gt-sm="50" flex-gt-md="20" flex-gt-lg="30").md-whiteframe-z2.form-register
+      md-content.md-padding
+
+         h3(layout="column", layout-align="start center").md-title Логин
+
+         div(flex-sm="100" layout-sm="column")
+
+            form(name='loginForm', method='POST', autocomplete="off", ng-submit='vm.loginUser(loginForm.$valid)', novalidate)
+
+               md-input-container.md-block
+                  label Логин
+                  input(name='name', ng-model='userName', required)
+
+                  div(ng-messages)
+                     p.md-caption(ng-if='loginForm.name.$error.required && !loginForm.name.$untouched') Поле обязательно.
+
+               md-input-container.md-block
+                  label Пароль
+                  input(name='password', ng-model='userPass', type='password', required)
+
+                  div(ng-messages)
+                     p.md-caption(ng-if='loginForm.password.$error.required && !loginForm.password.$untouched') Поле обязательно.
+
+
+               md-card(ng-if='vm.error', ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}").md-padding.error
+                  | {{vm.error}}
+
+               md-card(ng-if='vm.done', ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}").md-padding.done
+                  | {{vm.done}}
+
+
+
+               div(layout="column", layout-align="center end")
+                  md-button(type="submit", ng-disabled="registerForm.$invalid").md-primary.md-raised Отправить

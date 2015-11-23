@@ -12,6 +12,7 @@
         var data = _getData();
 
         auth.createUser(data).then(function (res) {
+          console.log(res.data);
           _showResult(res.data);
         }).catch(function (err) {
           self.error = "Some errors on server. Please reload page and try again.";
@@ -27,15 +28,17 @@
 
         auth.loginUser(data).then(function(res) {
           console.log(res);
+        }).catch(function(err) {
+          console.log(err);
         });
       }
     };
 
     function _getData() {
       return {
-        userName : $scope.userName,
-        userEmail: $scope.userEmail,
-        userPass : $scope.userPass
+        username : $scope.username,
+        useremail: $scope.useremail,
+        pass : $scope.pass
       };
     }
 

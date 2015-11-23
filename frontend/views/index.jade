@@ -6,9 +6,20 @@ html(ng-app='todo')
         link(rel="stylesheet", href="components/angular-material/angular-material.min.css")
         link(rel="stylesheet", href="components/angular-material-icons/angular-material-icons.css")
         link(rel="stylesheet", href="css/index.css")
+
     body.layout-column.flex
         main.layout-column.flex
+
+            md-toolbar.site-content-toolbar
+                div.md-toolbar-tools
+                    h2.site-title Admin Bulk
+                    span(flex)
+                    div.accounts-button
+                        md-button(md-no-ink).md-primary Авторизація
+                        md-button.md-raised.md-primary Реєстрація
+
             section(ng-view).layout-column.flex
+
         script(type="text/javascript", src='components/angular/angular.min.js')
         script(type="text/javascript", src='components/angular-animate/angular-animate.min.js')
         script(type="text/javascript", src='components/angular-aria/angular-aria.min.js')

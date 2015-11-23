@@ -1,58 +1,42 @@
 'use strict';
-var passport = require('passport');
-var User     = require('../models/user');
-var express  = require('express');
-var router   = express.Router();
+
 var log = require('../lib/logger');
 
-router.get('/', function (req, res) {
-  res.render('index');
-});
 
-router.get('/views/:name', function (req, res) {
-  res.render(req.params.name);
-});
+module.exports = function (app) {
 
-router.get('/views/:path/:name', function (req, res) {
-  res.render(req.params.path + "/" + req.params.name);
-});
+  var api = require('./controllers/users');
 
-router.post('/api/register', function (req, res) {
-  User.register(new User({
-    username: req.body.userName,
-    email: req.body.userEmail
-  }), req.body.userPass, function (err, account) {
-
-    if (err) {
-      log.error(err);
-      return res.json({
-        success: false,
-        extras : {
-          message: 'Пользователь с таким логином или имейлом уже существует.',
-          info: err.message
-        }
-      });
-    }
-
-    if (account) {
-      log.info('registered');
-
-      res.json({
-        success: true,
-        extras : {
-          message: 'Пользователь успешно зарегестрирован.',
-          info: account._id
-        }
-      });
-
-    }
+  app.get('/', function (req, res) {
+    res.render('index');
   });
 
-});
+  app.get('/views/:name', function (req, res) {
+    res.render(req.params.name);
+  });
 
-router.post('api/login', passport.authenticate('local'), function (req, res) {
-  res.redirect('/');
-});
+  app.get('/views/:path/:name', function (req, res) {
+    res.render(req.params.path + "/" + req.params.name);
+  });
 
 
-module.exports = router;
+  app.post('/api/register', function (req, res, next) {
+    console.log(req.body);
+    api.user.register(req.body).then(function (user) {
+      log.info(user);
+      if (user) {
+        return res.json({success: true, extras: {message: 'Hello.'}});
+      }
+
+      throw new Error('Cant register');
+    }).catch(function (err) {
+      log.error(err);
+      res.json({success: false, extras: {message: 'User exist. Try again', info: err}});
+    });
+
+  });
+
+  app.post('api/login', function (req, res) {
+    res.redirect('/');
+  });
+};
