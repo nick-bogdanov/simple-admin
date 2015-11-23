@@ -1,0 +1,20 @@
+doctype html
+html(ng-app='todo')
+    head
+        title Admin
+        meta(content="text/html; charset=UTF-8")
+        link(rel="stylesheet", href="components/angular-material/angular-material.min.css")
+        link(rel="stylesheet", href="components/angular-material-icons/angular-material-icons.css")
+        link(rel="stylesheet", href="css/index.css")
+    body.layout-column.flex
+        main.layout-column.flex
+            section(ng-view).layout-column.flex
+        script(type="text/javascript", src='components/angular/angular.min.js')
+        script(type="text/javascript", src='components/angular-aria/angular-aria.min.js')
+        script(type="text/javascript", src='components/angular-material-icons/angular-material-icons.min.js')
+        script(type="text/javascript", src='components/angular-animate/angular-animate.min.js')
+        script(type="text/javascript", src='components/angular-material/angular-material.min.js')
+        script(type="text/javascript", src='components/angular-route/angular-route.min.js')
+        script(type="text/javascript", src='scripts/app.js')
+        script(type="text/javascript", src='scripts/AccountController.js')
+        script(type="text/javascript", src='scripts/AccountService.js')

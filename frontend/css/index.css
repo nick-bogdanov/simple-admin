@@ -1,0 +1,32 @@
+/*---------------------------------------------------
+    LESS Elements 0.9
+  ---------------------------------------------------
+    A set of useful LESS mixins
+    More info at: http://lesselements.com
+  ---------------------------------------------------*/
+.form-register {
+  margin-top: 50px;
+}
+.ui-toast {
+  background-color: #EF9A9A;
+}
+.animate-enter {
+  -webkit-transition: 1s linear all;
+  /* Chrome */
+  transition: 1s linear all;
+  opacity: 0;
+}
+.animate-enter.animate-enter-active {
+  opacity: 1;
+}
+.text-center {
+  text-align: center;
+}
+body .error {
+  background-color: #EF9A9A;
+  color: #a94442;
+}
+body .done {
+  background-color: #d0f8ce;
+  color: #42bd41;
+}

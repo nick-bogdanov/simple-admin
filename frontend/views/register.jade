@@ -1,0 +1,59 @@
+div(flex, layout="row", layout-align="center start")
+
+   div(flex-sm="100" flex-gt-sm="50" flex-gt-md="20" flex-gt-lg="30").md-whiteframe-z2.form-register
+      md-content.md-padding
+         h3(layout="column", layout-align="start center").md-title Регистрация
+         div(flex-sm="100" layout-sm="column")
+
+            form(name='registerForm', method='POST', autocomplete="off", ng-submit='vm.registerUser(registerForm.$valid)', novalidate)
+               md-input-container.md-block
+                  label Ім'я
+                  input(name='name', ng-model='userName', required, ng-minlength="2", ng-maxlength="15")
+
+                  div(ng-messages)
+                     p.md-caption(ng-if='registerForm.name.$error.minlength && !registerForm.name.$untouched') Имя слишком короткое.
+                     p.md-caption(ng-if='registerForm.name.$error.maxlength && !registerForm.name.$untouched') Имя слишком долгое.
+                     p.md-caption(ng-if='registerForm.name.$error.required && !registerForm.name.$untouched') Поле обязательно.
+
+               md-input-container.md-block
+                  label Імейл
+                  input(name='email', ng-model='userEmail', type='email', required, ng-maxlength="50")
+
+                  div(ng-messages)
+                     p.md-caption(ng-if='registerForm.email.$invalid && !registerForm.email.$untouched') Введите верный пароль.
+                     p.md-caption(ng-if='registerForm.email.$error.required && !registerForm.email.$untouched') Поле обязательно.
+
+               md-input-container.md-block
+                  label Пароль
+                  input(name='password', ng-model='userPass', type='password', required, ng-minlength='5', ng-maxlength="30")
+
+                  div(ng-messages)
+                     p.md-caption(ng-if='registerForm.password.$error.minlength && !registerForm.password.$untouched')
+                        | Пароль короткий. Минимум 5 символов.
+                     p.md-caption(ng-if='registerForm.password.$error.maxlength && !registerForm.password.$untouched')
+                        | Пароль слишком долгий.
+                     p.md-caption(ng-if='registerForm.password.$error.required && !registerForm.password.$untouched') Поле обязательно.
+
+               md-input-container.md-block
+                  label Повторите пароль
+                  input(name='repassword', ng-model='reuserPass', type='password', required, ng-minlength='5', ng-maxlength="30")
+
+                  div(ng-messages)
+                     p.md-caption(ng-if='registerForm.repassword.$error.minlength && !registerForm.repassword.$untouched')
+                        | Пароль короткий. Минимум 5 символов.
+                     p.md-caption(ng-if='registerForm.repassword.$error.maxlength && !registerForm.repassword.$untouched')
+                        | Пароль слишком долгий.
+                     p.md-caption(ng-if='registerForm.repassword.$error.required && !registerForm.repassword.$untouched') Поле обязательно.
+                     p.md-caption(ng-if='(reuserPass !== userPass) && !registerForm.repassword.$untouched') Пароли не сходятся.
+
+
+               md-card(ng-if='vm.error', ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}").md-padding.error
+                  | {{vm.error}}
+
+               md-card(ng-if='vm.done', ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}").md-padding.done
+                  | {{vm.done}}
+
+
+
+               div(layout="column", layout-align="center end")
+                  md-button(type="submit", ng-disabled="registerForm.$invalid").md-primary.md-raised Send

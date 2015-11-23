@@ -1,3 +1,5 @@
+"use strict";
+
 var express      = require('express');
 var path         = require('path');
 var favicon      = require('serve-favicon');
@@ -5,14 +7,15 @@ var logger       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var mongoose     = require('mongoose');
-var config = require('config');
+var config       = require('config');
+var log          = require('./lib/logger');
 
 var app = express();
 
 mongoose.connect(config.get('db'));
 
-mongoose.connection.on('error', function(err) {
-  console.log('mongoose error: ',err);
+mongoose.connection.on('error', function (err) {
+  log.error('mongoose error: ', err);
 });
 
 // view engine setup
@@ -25,11 +28,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(require('node-compass')({mode: 'expanded'}));
 
 app.use(express.static(path.join(__dirname, config.get('public.static'))));
 
-
+require('./api/routes')(app);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
