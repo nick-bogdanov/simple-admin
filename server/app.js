@@ -33,7 +33,7 @@ app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, config.get('public.static'))));
 
-require('./api/routes')(app);
+app.use('/', require('./api/routes'));
 
 
 passport.use(new LocalStrategy(User.authenticate()));

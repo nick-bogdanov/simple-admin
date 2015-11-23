@@ -9,7 +9,7 @@ div(flex, layout="row", layout-align="center start")
 
             form(name='registerForm', method='POST', autocomplete="off", ng-submit='vm.registerUser(registerForm.$valid)', novalidate)
                md-input-container.md-block
-                  label Имя
+                  label Логин
                   input(name='name', ng-model='userName', required, ng-minlength="2", ng-maxlength="15")
 
                   div(ng-messages)

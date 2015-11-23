@@ -6,7 +6,7 @@
     $routeProvider
       .when('/login', {
         templateUrl: '/views/login',
-        controller: 'LoginController'
+        controller: 'AuthController'
       })
       .when('/user/register', {
         templateUrl: '/views/register',

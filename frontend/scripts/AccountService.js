@@ -1,21 +1,26 @@
-(function(angular) {
+(function (angular) {
   "use strict";
 
   function AuthService($http) {
 
-    var actions = {
-      createUser: _createUser
+    var api = function (path, data, handler) {
+      return $http.post('/api' + path, data).then(handler);
     };
 
-    return actions;
+    return {
+      createUser: _createUser,
+      loginUser : _loginUser
+    };
 
-    function _createUser (data) {
+    function _createUser(data) {
       if (data) {
-        return $http.post('/api/users/create', data).then(function(res) {
-          return res.data;
-        }).catch(function(err) {
-          return err;
-        });
+        return api('/register', data);
+      }
+    }
+
+    function _loginUser(data) {
+      if (data) {
+        return api('/login', data);
       }
     }
 

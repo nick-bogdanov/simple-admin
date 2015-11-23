@@ -1,36 +1,56 @@
-(function(angular) {
+(function (angular) {
   "use strict";
 
   function RegisterController($scope, auth) {
 
-    this.registerUser = function(form) {
+    var self = this;
+
+    this.registerUser = function (form) {
 
       if (form) {
-        var self = this;
-        var data = {
-          userName: $scope.userName,
-          userEmail: $scope.userEmail,
-          userPass: $scope.userPass
-        };
 
-        this.error = null;
-        this.done = null;
+        var data = _getData();
 
-        auth.createUser(data).then(function(res) {
-          console.log(res);
-          if (!res.success) {
-            self.error = res.extras.message;
-          }
-          if (res.success) {
-            self.done = true;
-          }
-        }).catch(function(err) {
+        auth.createUser(data).then(function (res) {
+          _showResult(res.data);
+        }).catch(function (err) {
           self.error = "Some errors on server. Please reload page and try again.";
           console.log(err);
         });
 
       }
     };
+
+    this.loginUser = function (form) {
+      if (form) {
+        var data = _getData();
+
+        auth.loginUser(data).then(function(res) {
+          console.log(res);
+        });
+      }
+    };
+
+    function _getData() {
+      return {
+        userName : $scope.userName,
+        userEmail: $scope.userEmail,
+        userPass : $scope.userPass
+      };
+    }
+
+    function _showResult(result) {
+      var message = result.extras.message;
+      self.error  = null;
+      self.done   = null;
+
+      if (result.success) {
+        self.done = message;
+      }else{
+        self.error = message;
+      }
+
+    }
 
   }
 
@@ -39,7 +59,7 @@
     console.log(check);
     if (confirm) {
       $location.path("/home");
-    }else{
+    } else {
       console.log(false);
       $location.path("/bad-permission");
     }
@@ -50,7 +70,7 @@
   angular.module('todo')
     .controller('AuthController', RegisterController);
 
-  RegisterController.$inject = ["$scope", "auth"];
+  RegisterController.$inject        = ["$scope", "auth"];
   ConfirmRegisterController.$inject = ["check", "$location"];
 
 

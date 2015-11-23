@@ -7,9 +7,11 @@ var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
   email: { type: String, required: true, unique: true} ,
-  username: { type: String, required: true }
+  username: { type: String, required: true, unique: true }
 });
 
-UserSchema.plugin(passportLocalMongoose);
+UserSchema.plugin(passportLocalMongoose, {
+  usernameField: 'email'
+});
 
 module.exports = mongoose.model('User', UserSchema);

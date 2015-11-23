@@ -89,6 +89,7 @@
 
   // Custom Globals
   "globals"       : {
-    "angular"   : false
+    "angular": false,
+    "console": false
   }
 }
