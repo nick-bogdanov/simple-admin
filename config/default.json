@@ -1,0 +1,11 @@
+{
+  "public": {
+    "views": "../frontend/views",
+    "static": "/../frontend/"
+  },
+  "app": {
+    "viewEngine": "jade",
+    "port": 3000
+  }
+
+}

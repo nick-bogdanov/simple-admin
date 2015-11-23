@@ -5,18 +5,10 @@
     "Nick <kol9dyn4ek@gmail.com>"
   ],
   "description": "client side modules",
-  "main": "app.js",
   "moduleType": [],
   "license": "MIT",
   "homepage": "",
   "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
   "dependencies": {
     "angular": "~1.4.8"
   }
