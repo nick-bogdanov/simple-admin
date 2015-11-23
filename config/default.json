@@ -7,5 +7,16 @@
     "viewEngine": "jade",
     "port": 3000
   },
-  "db": "mongodb://localhost:27017/adminTask"
+  "db": "mongodb://localhost:27017/adminTask",
+  "session": {
+    "secret": "dsMZb3BZoyl+pvcoDxu07WPeIzmk8EXJDnACatbmG70=",
+    "key": "hm_session",
+    "resave": true,
+    "saveUninitialized": true,
+    "cookie": {
+      "path": "/",
+      "httpOnly": true,
+      "maxAge": 172800000
+    }
+  }
 }

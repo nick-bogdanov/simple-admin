@@ -1,7 +1,7 @@
 (function(angular) {
   'use strict';
 
-  angular.module('todo', ['ngRoute', 'ngMdIcons', 'ngMaterial']).config(function($routeProvider) {
+  angular.module('todo', ['ngRoute', 'ngMdIcons', 'ngMaterial', 'ngAnimate']).config(function($routeProvider) {
 
     $routeProvider
       .when('/login', {

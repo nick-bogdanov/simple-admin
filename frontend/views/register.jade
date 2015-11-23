@@ -2,12 +2,14 @@ div(flex, layout="row", layout-align="center start")
 
    div(flex-sm="100" flex-gt-sm="50" flex-gt-md="20" flex-gt-lg="30").md-whiteframe-z2.form-register
       md-content.md-padding
+
          h3(layout="column", layout-align="start center").md-title Регистрация
+
          div(flex-sm="100" layout-sm="column")
 
             form(name='registerForm', method='POST', autocomplete="off", ng-submit='vm.registerUser(registerForm.$valid)', novalidate)
                md-input-container.md-block
-                  label Ім'я
+                  label Имя
                   input(name='name', ng-model='userName', required, ng-minlength="2", ng-maxlength="15")
 
                   div(ng-messages)
@@ -16,7 +18,7 @@ div(flex, layout="row", layout-align="center start")
                      p.md-caption(ng-if='registerForm.name.$error.required && !registerForm.name.$untouched') Поле обязательно.
 
                md-input-container.md-block
-                  label Імейл
+                  label Имейл
                   input(name='email', ng-model='userEmail', type='email', required, ng-maxlength="50")
 
                   div(ng-messages)
@@ -56,4 +58,4 @@ div(flex, layout="row", layout-align="center start")
 
 
                div(layout="column", layout-align="center end")
-                  md-button(type="submit", ng-disabled="registerForm.$invalid").md-primary.md-raised Send
+                  md-button(type="submit", ng-disabled="registerForm.$invalid").md-primary.md-raised Отправить
