@@ -2,13 +2,13 @@
 
 var log = require('../lib/logger');
 
-
 module.exports = function (app) {
 
   var api = require('./controllers/users');
 
   app.get('/', function (req, res) {
     res.render('index');
+    log.info(req.session.token);
   });
 
   app.get('/views/:name', function (req, res) {
@@ -20,15 +20,17 @@ module.exports = function (app) {
   });
 
 
-  app.post('/api/register', function (req, res, next) {
-    console.log(req.body);
-    api.user.register(req.body).then(function (user) {
-      log.info(user);
-      if (user) {
-        return res.json({success: true, extras: {message: 'Hello.'}});
+  app.post('/api/register', function (req, res) {
+
+    api.user.register(req.body).then(function (data) {
+
+      if (data) {
+        req.session.token = data._id;
+        return res.json({success: true, extras: {message: 'Регистрация прошла успешно.'}});
       }
 
       throw new Error('Cant register');
+
     }).catch(function (err) {
       log.error(err);
       res.json({success: false, extras: {message: 'User exist. Try again', info: err}});
@@ -37,6 +39,6 @@ module.exports = function (app) {
   });
 
   app.post('api/login', function (req, res) {
-    res.redirect('/');
+    //res.redirect('/');
   });
 };

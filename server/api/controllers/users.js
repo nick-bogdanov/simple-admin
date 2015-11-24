@@ -26,7 +26,7 @@ exports.user = {
 
     })
       .then(function (userData) {
-        log.info(userData);
+
         var newUser = User({
           name : userData.username,
           email: userData.useremail

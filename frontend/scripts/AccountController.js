@@ -1,6 +1,12 @@
 (function (angular) {
   "use strict";
 
+  angular.module('todo')
+    .controller('AuthController', RegisterController);
+
+  RegisterController.$inject        = ["$scope", "auth"];
+  ConfirmRegisterController.$inject = ["check", "$location"];
+
   function RegisterController($scope, auth) {
 
     var self = this;
@@ -26,9 +32,9 @@
       if (form) {
         var data = _getData();
 
-        auth.loginUser(data).then(function(res) {
+        auth.loginUser(data).then(function (res) {
           console.log(res);
-        }).catch(function(err) {
+        }).catch(function (err) {
           console.log(err);
         });
       }
@@ -38,7 +44,7 @@
       return {
         username : $scope.username,
         useremail: $scope.useremail,
-        pass : $scope.pass
+        pass     : $scope.pass
       };
     }
 
@@ -49,7 +55,7 @@
 
       if (result.success) {
         self.done = message;
-      }else{
+      } else {
         self.error = message;
       }
 
@@ -68,13 +74,6 @@
     }
 
   }
-
-
-  angular.module('todo')
-    .controller('AuthController', RegisterController);
-
-  RegisterController.$inject        = ["$scope", "auth"];
-  ConfirmRegisterController.$inject = ["check", "$location"];
 
 
 })(angular);

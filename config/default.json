@@ -18,5 +18,8 @@
       "httpOnly": true,
       "maxAge": 172800000
     }
+  },
+  "secret": {
+    "id": "Bp2y8rG6+Fh7z/Z2/bbtjxi6A/EOG9acTevd5nC5YcQ="
   }
 }

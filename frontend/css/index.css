@@ -4,6 +4,9 @@
     A set of useful LESS mixins
     More info at: http://lesselements.com
   ---------------------------------------------------*/
+.body {
+  padding-top: 70px;
+}
 .form-register {
   margin-top: 50px;
 }
@@ -29,4 +32,11 @@ body .error {
 body .done {
   background-color: #d0f8ce;
   color: #42bd41;
+}
+.enter-form {
+  max-width: 400px;
+  margin: 30px auto 0;
+  border: solid 1px #cacaca;
+  padding: 20px;
+  border-radius:5px;
 }

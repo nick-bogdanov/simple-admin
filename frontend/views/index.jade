@@ -3,30 +3,29 @@ html(ng-app='todo')
     head
         title Admin
         meta(content="text/html; charset=UTF-8")
-        link(rel="stylesheet", href="components/angular-material/angular-material.min.css")
-        link(rel="stylesheet", href="components/angular-material-icons/angular-material-icons.css")
+        link(rel="stylesheet", href="components/bootstrap/dist/css/bootstrap.min.css")
         link(rel="stylesheet", href="css/index.css")
 
-    body.layout-column.flex
-        main.layout-column.flex
+    body
+        nav.navbar.navbar-default
+            div.container
+                div.navbar-header
+                    a.navbar-brand Bulk Admin
 
-            md-toolbar.site-content-toolbar
-                div.md-toolbar-tools
-                    h2.site-title Admin Bulk
-                    span(flex)
-                    div.accounts-button
-                        md-button(md-no-ink).md-primary Авторизація
-                        md-button.md-raised.md-primary Реєстрація
+                ul.nav.navbar-nav.navbar-right
+                    li(ui-nav='/register')
+                        a(href='/#/register') Register
 
-            section(ng-view).layout-column.flex
+                     li(ui-nav='/login')
+                        a(href='/#/login', ui-nav='/login') Login
+
+        main
+            section(ng-view).container
 
         script(type="text/javascript", src='components/angular/angular.min.js')
         script(type="text/javascript", src='components/angular-animate/angular-animate.min.js')
-        script(type="text/javascript", src='components/angular-aria/angular-aria.min.js')
-        script(type="text/javascript", src='components/angular-material-icons/angular-material-icons.min.js')
-        script(type="text/javascript", src='components/angular-animate/angular-animate.min.js')
-        script(type="text/javascript", src='components/angular-material/angular-material.min.js')
         script(type="text/javascript", src='components/angular-route/angular-route.min.js')
         script(type="text/javascript", src='scripts/app.js')
         script(type="text/javascript", src='scripts/AccountController.js')
         script(type="text/javascript", src='scripts/AccountService.js')
+        script(type="text/javascript", src='scripts/directives.js')
