@@ -40,7 +40,7 @@ exports.user = {
             return Promise.reject({success: false, extras: {message: 'Email already exist', info: err}});
           }
           if (numAffected === 1) {
-            log.info('registed');
+            log.info('registered');
             return Promise.resolve({success: true, extras: {message: 'created successful'}});
           }
         });
@@ -50,5 +50,25 @@ exports.user = {
         return Promise.reject({success: false, extras: {message: 'Error on creating user', info: err}});
       });
 
+  },
+
+  getUserById: function (userId) {
+
+    return new Promise(function (resolve, reject) {
+      return User.findOne({_id: userId}, function (err, user) {
+
+        if (err) {
+          log.error('error on getting by id', err);
+          return reject({success: false, extras: {message: 'Error on finding user', info: err}});
+        }
+
+        if (user) {
+          return resolve({success: true, extras: {message: 'User was finded'}});
+        } else {
+          return reject({success: false, extras: {message: 'User is not exist', info: err}});
+        }
+
+      });
+    });
   }
 };

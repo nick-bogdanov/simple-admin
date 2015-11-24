@@ -11,8 +11,9 @@ var config         = require('config');
 var log            = require('./lib/logger');
 var sessionOptions = config.get("session");
 var session        = require('express-session');
+var MongoStore     = require('connect-mongo')(session);
 
-
+sessionOptions.store = new MongoStore({mongooseConnection: mongoose.connection});
 
 // view engine setup
 app.set('views', path.join(__dirname, config.get('public.views')));
@@ -32,6 +33,7 @@ app.use(express.static(path.join(__dirname, config.get('public.static'))));
 require('./api/routes')(app);
 
 mongoose.connect(config.get('db'));
+
 mongoose.connection.on('error', function (err) {
   log.error('mongoose error: ', err);
 });

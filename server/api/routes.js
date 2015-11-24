@@ -1,6 +1,8 @@
 'use strict';
 
-var log = require('../lib/logger');
+var log    = require('../lib/logger');
+var codify = require('../lib/codifyData');
+var config = require('config');
 
 module.exports = function (app) {
 
@@ -8,7 +10,6 @@ module.exports = function (app) {
 
   app.get('/', function (req, res) {
     res.render('index');
-    log.info(req.session.token);
   });
 
   app.get('/views/:name', function (req, res) {
@@ -25,8 +26,10 @@ module.exports = function (app) {
     api.user.register(req.body).then(function (data) {
 
       if (data) {
-        req.session.token = data._id;
-        return res.json({success: true, extras: {message: 'Регистрация прошла успешно.'}});
+        var token         = codify.encrypt(data._id.toString(), config.get('secret.id'));
+        req.session.token = token;
+        log.info(req.session.token);
+        return res.json({success: true, extras: {message: 'Регистрация прошла успешно.', info: token}});
       }
 
       throw new Error('Cant register');
@@ -38,7 +41,25 @@ module.exports = function (app) {
 
   });
 
-  app.post('api/login', function (req, res) {
-    //res.redirect('/');
+  //app.post('/api/login', function (req, res) {
+  //  //res.redirect('/');
+  //});
+
+
+  app.post('/api/authorized', function (req, res) {
+    log.debug(req.session.token);
+    if (!req.session.token) {
+      log.info('token is not exist');
+      return res.json({success: false, extras: {message: 'User is not authorized'}});
+    }
+
+    api.user.getUserById(codify.decrypt(req.body.token.toString(), config.get('secret.id'))).then(function (data) {
+      log.info(data);
+      //log.info(data);
+      res.json({message: data});
+    }).catch(function(err) {
+      log.error(err);
+    })
+
   });
 };
