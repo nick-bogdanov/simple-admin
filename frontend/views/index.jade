@@ -10,15 +10,25 @@ html(ng-app='todo')
         nav.navbar.navbar-default
             div.container
                 .col-lg-12
-                    div.navbar-header
-                        a.navbar-brand Bulk Admin
+                    div(ng-if='!isAuthorized')
+                        div.navbar-header
+                            a(href='/').navbar-brand Bulk Admin
 
-                    ul.nav.navbar-nav.navbar-right
-                        li(ui-nav='/register')
-                            a(href='/#/register') Register
+                        ul.nav.navbar-nav.navbar-right
+                            li(ui-nav='/register')
+                                a(href='/#/register') Register
 
-                         li(ui-nav='/login')
-                            a(href='/#/login', ui-nav='/login') Login
+                             li(ui-nav='/login')
+                                a(href='/#/login') Login
+
+                    div(ng-if='isAuthorized')
+
+                        div.navbar-header
+                            a(href='/#/services-lists').navbar-brand Bulk Admin
+
+                        ul.nav.navbar-nav.navbar-right
+                            li
+                                a(href='#', log-out) Выход
 
         main
             section(ng-view).container

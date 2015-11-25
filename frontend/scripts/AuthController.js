@@ -4,9 +4,9 @@
   angular.module('todo')
     .controller('AuthController', AuthController);
 
-  AuthController.$inject = ["$scope", "auth", '$localStorage', '$location'];
+  AuthController.$inject = ["$scope", "auth", '$localStorage', '$location', '$rootScope'];
 
-  function AuthController($scope, auth, $localStorage, $location) {
+  function AuthController($scope, auth, $localStorage, $location, $rootScope) {
 
     var self = this;
 
@@ -52,6 +52,7 @@
       console.log(response);
       if (response.data.success) {
         $localStorage.token = response.data.extras.token;
+        $rootScope.isAuthorized = true;
         console.log('token are set');
         $location.path('/services-lists');
       }else{

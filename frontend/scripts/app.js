@@ -22,21 +22,8 @@
       .otherwise({
         redirectTo: '/register'
       });
-  }).run(function ($location, auth, $localStorage, $rootScope) {
-    if ($localStorage.token) {
-      auth.authorized($localStorage.token).then(function(res) {
-        console.log('Authorized');
-        console.log(res);
-        $rootScope.isAuthorized = true;
-      }).catch(function(err) {
-        console.log(err);
-        $rootScope.isAuthorized = false;
-        $location.path('/');
-      });
-    }else{
-      $rootScope.isAuthorized = false;
-      $location.path('/');
-    }
+  }).run(function (auth) {
+    auth.authorized();
   });
 
 })(angular);

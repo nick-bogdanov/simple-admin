@@ -68,4 +68,13 @@ module.exports = function (app) {
     });
 
   });
+
+  app.post('/api/logout', function(req, res) {
+    log.info(req.session);
+    log.info(req.session.token);
+    req.session.destroy(function(err) {
+      log.debug(err);
+    });
+  });
+
 };

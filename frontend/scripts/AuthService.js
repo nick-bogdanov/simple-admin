@@ -1,7 +1,11 @@
 (function (angular) {
   "use strict";
 
-  function AuthService($http) {
+  angular.module('todo').service('auth', AuthService);
+
+  AuthService.$inject = ["$http", '$localStorage', '$rootScope', '$location'];
+
+  function AuthService($http, $localStorage, $rootScope, $location) {
 
     var api = function (path, data) {
       return $http.post('/api' + path, data);
@@ -10,8 +14,8 @@
     return {
       createUser: _createUser,
       loginUser : _loginUser,
-      authorized: _authorized
-
+      authorized: _authorized,
+      logOut: _logOut
     };
 
     function _createUser(data) {
@@ -26,18 +30,28 @@
       }
     }
 
-    function _authorized(token) {
-      if (token) {
-        return api('/authorized', {token: token});
+    function _authorized() {
+      if ($localStorage.token) {
+        return api('/authorized', {token: $localStorage.token}).then(function () {
+          if ($localStorage.token) {
+            $rootScope.isAuthorized = true;
+          }
+        }).catch(function (err) {
+          console.error(err);
+          $rootScope.isAuthorized = false;
+          $location.path('/');
+        });
+      } else {
+        $rootScope.isAuthorized = false;
+        $location.path('/');
       }
     }
 
+    function _logOut() {
+      return api('/logout');
+    }
+
   }
-
-  angular.module('todo')
-    .service('auth', AuthService);
-
-  AuthService.$inject = ["$http"];
 
 
 })(angular);
