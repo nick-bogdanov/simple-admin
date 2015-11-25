@@ -1,10 +1,12 @@
 (function(angular) {
   "use strict";
 
-  angular.module('todo').controller('ServicesController', ServicesController);
+  angular.module('todo').controller('ServicesEdit', ServicesEdit);
 
-  function ServicesController() {
+  function ServicesEdit() {
+    this.createPerson = function() {
 
+    };
   }
 
 })(angular);

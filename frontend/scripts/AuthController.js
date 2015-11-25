@@ -51,11 +51,12 @@
     function _userSuccess(response) {
       console.log(response);
       if (response.data.success) {
-        $localStorage.token = response.data.extras.token;
-        $rootScope.isAuthorized = true;
         console.log('token are set');
+
+        $localStorage.token     = response.data.extras.token;
+        $rootScope.isAuthorized = true;
         $location.path('/services-lists');
-      }else{
+      } else {
         console.error('User is not success');
       }
     }

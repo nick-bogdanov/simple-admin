@@ -16,8 +16,8 @@
       })
       .when('/services-lists', {
         templateUrl : '/views/services-list',
-        controller  : 'ServicesController',
-        controllerAs: 'sc'
+        controller  : 'ServicesEdit',
+        controllerAs: 'se'
       })
       .otherwise({
         redirectTo: '/register'
