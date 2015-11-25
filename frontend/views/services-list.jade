@@ -1,0 +1,56 @@
+div.container
+    h4 SO-Admin-Bulk-ServiceEdit
+    .row
+        .col-lg-6
+            .content-wrapper
+                .block-header.bg-primary
+                    .block-title.text-center Добавить новый сервис
+
+                form.form-horizontal
+                    .form-group
+                        .col-xs-6
+                            label IDP
+                            .col-xs-12
+                                input.form-control(type='number')
+                        .col-xs-6
+                            label.col-xs-12 Login
+                            .col-xs-12
+                                input.form-control(type='text')
+
+                    .form-group
+                        .col-xs-12
+                            button.btn.btn-sm.btn-primary.pull-right Создать
+
+        .col-lg-5.pull-right
+            .content-wrapper
+                .block-header.bg-danger
+                    .block-title.text-center Удалить сервис
+
+                form.form-horizontal
+                    label Удалить по значению
+                    .input-group.ui-group
+                        .input-group-btn
+                            button(type='button').btn.btn-default.dropdown-toggle
+                                | IDP
+                                | &nbsp;
+                                span.caret
+
+                            ul.dropdown-menu
+                                li
+                                    a(href='#') id
+
+                                li
+                                    a(href='#') Login
+
+                                li
+                                    a(href='#') IDP
+
+                                li
+                                    a(href='#') Email
+
+                        input.form-control
+
+                    .form-group
+                        .col-xs-12
+                            button.btn.btn-sm.btn-danger.pull-right Удалить
+

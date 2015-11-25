@@ -17,14 +17,8 @@
         var data = _getData();
 
         auth.createUser(data).then(function (res) {
-          console.log(res);
-          if (res.data.success) {
-            $localStorage.token = res.data.extras.info;
-            console.log('token are set');
-            $location.path('/services-lists');
-          }
-
-          //$location.path('/#/services-lists');
+          //console.log(res);
+          _userSuccess(res);
         }).catch(function (err) {
           self.error = "Some errors on server. Please reload page and try again.";
           console.error(err);
@@ -33,12 +27,13 @@
       }
     };
 
-    this.loginUser = function (form) {
+    this.login = function (form) {
       if (form) {
         var data = _getData();
 
-        auth.loginUser(data).then(function (res) {
+        auth.loginUser({email: data.useremail, pass: data.pass}).then(function (res) {
           console.log(res);
+          _userSuccess(res);
         }).catch(function (err) {
           console.log(err);
         });
@@ -51,6 +46,17 @@
         useremail: $scope.useremail,
         pass     : $scope.pass
       };
+    }
+
+    function _userSuccess(response) {
+      console.log(response);
+      if (response.data.success) {
+        $localStorage.token = response.data.extras.token;
+        console.log('token are set');
+        $location.path('/services-lists');
+      }else{
+        console.error('User is not success');
+      }
     }
 
   }

@@ -3,7 +3,7 @@
 
   function AuthService($http) {
 
-    var api = function (path, data, handler) {
+    var api = function (path, data) {
       return $http.post('/api' + path, data);
     };
 

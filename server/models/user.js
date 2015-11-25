@@ -11,12 +11,14 @@ var UserSchema = new Schema({
   passwordSalt: String
 });
 
-UserSchema.methods.createHash = function (pass) {
-  var salt = Math.random().toString();
+UserSchema.methods.createHash = function (pass, salt) {
+  salt = salt || Math.random().toString();
 
   this.passwordSalt = salt;
-  this.passwordHash = crypto.createHash('sha1', pass).update(salt).digest('hex');
+
+  return crypto.createHash('sha1', pass).update(salt).digest('hex');
 
 };
+
 
 module.exports = mongoose.model('User', UserSchema);

@@ -26,6 +26,7 @@
     if ($localStorage.token) {
       auth.authorized($localStorage.token).then(function(res) {
         console.log('Authorized');
+        console.log(res);
         $rootScope.isAuthorized = true;
       }).catch(function(err) {
         console.log(err);

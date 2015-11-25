@@ -28,8 +28,8 @@ module.exports = function (app) {
       if (data) {
         var token         = codify.encrypt(data._id.toString(), config.get('secret.id'));
         req.session.token = token;
-        log.info(req.session.token);
-        return res.json({success: true, extras: {message: 'Регистрация прошла успешно.', info: token}});
+
+        return res.json({success: true, extras: {message: 'Регистрация прошла успешно.', token: token}});
       }
 
       throw new Error('Cant register');
@@ -41,25 +41,31 @@ module.exports = function (app) {
 
   });
 
-  //app.post('/api/login', function (req, res) {
-  //  //res.redirect('/');
-  //});
+  app.post('/api/login', function (req, res) {
+
+    api.user.login(req.body).then(function(response) {
+      var token         = codify.encrypt(response.extras.id.toString(), config.get('secret.id'));
+      req.session.token = token;
+
+      res.json({success:true, extras: {message: 'Authorized', token: token}});
+    });
+
+  });
 
 
   app.post('/api/authorized', function (req, res) {
-    log.debug(req.session.token);
+
     if (!req.session.token) {
       log.info('token is not exist');
       return res.json({success: false, extras: {message: 'User is not authorized'}});
     }
 
-    api.user.getUserById(codify.decrypt(req.body.token.toString(), config.get('secret.id'))).then(function (data) {
+    api.user.findUserById(codify.decrypt(req.body.token.toString(), config.get('secret.id'))).then(function (data) {
       log.info(data);
-      //log.info(data);
       res.json({message: data});
-    }).catch(function(err) {
+    }).catch(function (err) {
       log.error(err);
-    })
+    });
 
   });
 };

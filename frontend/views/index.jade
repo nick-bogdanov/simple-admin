@@ -9,15 +9,16 @@ html(ng-app='todo')
     body
         nav.navbar.navbar-default
             div.container
-                div.navbar-header
-                    a.navbar-brand Bulk Admin
+                .col-lg-12
+                    div.navbar-header
+                        a.navbar-brand Bulk Admin
 
-                ul.nav.navbar-nav.navbar-right
-                    li(ui-nav='/register')
-                        a(href='/#/register') Register
+                    ul.nav.navbar-nav.navbar-right
+                        li(ui-nav='/register')
+                            a(href='/#/register') Register
 
-                     li(ui-nav='/login')
-                        a(href='/#/login', ui-nav='/login') Login
+                         li(ui-nav='/login')
+                            a(href='/#/login', ui-nav='/login') Login
 
         main
             section(ng-view).container
