@@ -15,7 +15,7 @@
       createUser: _createUser,
       loginUser : _loginUser,
       authorized: _authorized,
-      logOut: _logOut
+      logOut    : _logOut
     };
 
     function _createUser(data) {
@@ -32,15 +32,17 @@
 
     function _authorized() {
       if ($localStorage.token) {
-        return api('/authorized', {token: $localStorage.token}).then(function () {
-          if ($localStorage.token) {
-            $rootScope.isAuthorized = true;
-          }
-        }).catch(function (err) {
-          console.error(err);
-          $rootScope.isAuthorized = false;
-          $location.path('/');
-        });
+        return api('/authorized', {token: $localStorage.token})
+          .then(function () {
+            if ($localStorage.token) {
+              $rootScope.isAuthorized = true;
+            }
+          })
+          .catch(function (err) {
+            console.error(err);
+            $rootScope.isAuthorized = false;
+            $location.path('/');
+          });
       } else {
         $rootScope.isAuthorized = false;
         $location.path('/');

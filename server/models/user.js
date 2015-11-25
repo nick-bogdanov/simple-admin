@@ -8,7 +8,20 @@ var UserSchema = new Schema({
   email       : {type: String, required: true, unique: true},
   name        : {type: String, require: true},
   passwordHash: String,
-  passwordSalt: String
+  passwordSalt: String,
+  services    : [{
+    login  : String,
+    idp    : String,
+    email  : {type: String, default: 'support@mail.com'},
+    options: [{
+      method        : {type: String, default: 'get'},
+      bank          : {type: String, default: 'CBRF'},
+      minBalance    : Number,
+      currentBalance: Number,
+      url           : String,
+      data          : String
+    }]
+  }]
 });
 
 UserSchema.methods.createHash = function (pass, salt) {

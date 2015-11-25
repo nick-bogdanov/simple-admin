@@ -1,12 +1,12 @@
 div.container
-    h4 Редактирование сервисов
+    h4 Создание сервисов
     p.help-block.clearfix
     table.table.table-bordered.table-hover
         thead
             tr
                 th(colspan='6')
                         .row
-                            form(name='addPerson', ng-submit='se.createPerson(addPerson.$valid)').form-inline.col-lg-12
+                            form(name='addPerson', ng-submit='cs.createService(addPerson.$valid)').form-inline.col-lg-12
 
                                 .col-lg-2.form-group.input-group.input-group-sm
                                     span.input-group-addon Login
@@ -29,12 +29,11 @@ div.container
                                             span.caret
                                             span.sr-only
                                         ul.dropdown-menu
-                                            li: a(href='javascript:void(0);', ng-click='action = "Id"; open = false') Id
                                             li: a(href='javascript:void(0);', ng-click='action = "Login"; open = false') Login
                                             li: a(href='javascript:void(0);', ng-click='action = "Idp"; open = false') IDP
                                             li: a(href='javascript:void(0);', ng-click='action = "Balance"; open = false') Баланс
                                             li: a(href='javascript:void(0);', ng-click='action = "Email"; open = false') Email
-                                    input().form-control
+                                    input(ng-model='search').form-control
             tr
                 th.text-center Id
                 th.text-center Login
@@ -44,6 +43,19 @@ div.container
                 th.text-center Действия
 
         tbody
+            tr(ng-repeat='s in cs.services | filter:cs.filterParam()')
+                td.text-center {{$index + 1}}
+                td.text-center {{s.login}}
+                td.text-center {{s.idp}}
+                td.text-center {{s.balance || 0}}
+                td.text-center {{s.email || ""}}
+                td.text-center
+                    a(ng-click='cs.editService(s._id)').btn.btn-primary.btn-sm.pull-left Редактировать
+                    a(ng-click='cs.removeService(s._id)').btn.btn-danger.btn-sm.pull-right Удалить
+
+            tr(ng-if='!cs.services.length')
+                td(colspan='6')
+                    h5.text-center.text-muted Сервисов пока не создано
 
 
 

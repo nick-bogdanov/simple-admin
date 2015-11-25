@@ -33,7 +33,7 @@ exports.user = {
           email: userData.useremail
         });
 
-        newUser.passwordHash =  newUser.createHash(userData.pass);
+        newUser.passwordHash = newUser.createHash(userData.pass);
 
         return newUser.save(function (err, user, numAffected) {
           if (err) {
@@ -54,7 +54,7 @@ exports.user = {
   },
 
   findUserById: function (userId) {
-    log.info(userId);
+
     return new Promise(function (resolve, reject) {
       return User.findOne({_id: userId}, function (err, user) {
         //log.debug(user);
@@ -70,13 +70,14 @@ exports.user = {
         }
 
       });
+
     });
   },
 
-  login: function(_user) {
+  login: function (_user) {
 
-    return new Promise(function(resolve, reject) {
-      return User.findOne({email: _user.email}, function(err, user) {
+    return new Promise(function (resolve, reject) {
+      return User.findOne({email: _user.email}, function (err, user) {
         if (err) {
           log.error(err);
           return reject(err);
@@ -84,25 +85,25 @@ exports.user = {
 
         if (user) {
           return resolve(user);
-        }else{
-          return reject({success:false, extras: {message: 'user not find'}});
+        } else {
+          return reject({success: false, extras: {message: 'user not find'}});
         }
 
       });
 
     })
-      .then(function(data) {
+      .then(function (data) {
         var user = new User();
         var hash = user.createHash(_user.pass, data.passwordSalt);
 
         if (data.passwordHash === hash) {
           return {success: true, extras: {message: 'user find', id: data.id}};
-        }else{
+        } else {
           return {success: false, extras: {message: 'password are incorrect'}};
         }
 
       })
-      .catch(function(err) {
+      .catch(function (err) {
         log.error(err);
         return err;
       });
