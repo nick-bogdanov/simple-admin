@@ -5,7 +5,7 @@
     .service('auth', AuthService)
     .service('injectTokenService', TokenService);
 
-  AuthService.$inject = ["$http", '$localStorage', '$rootScope', '$location'];
+  AuthService.$inject  = ["$http", '$localStorage', '$rootScope', '$location'];
   TokenService.$inject = ['$localStorage', '$rootScope'];
 
   function AuthService($http, $localStorage, $rootScope, $location) {
@@ -35,21 +35,21 @@
 
     function _authorized() {
 
-      $rootScope.$on('$routeChangeStart', function(event, next, current) {
-        api('/authorized').then(function(res) {
+      $rootScope.$on('$routeChangeStart', function (event, next) {
+        api('/authorized').then(function (res) {
           var authorized = $rootScope.isAuthorized = res.data.authorized;
 
-          if (!authorized) {
+          if (authorized) {
+            $location.path(next.originalUrl);
+          } else {
             if (next.templateUrl === '/views/register' || next.templateUrl === '/views/login') {
               $location.path(next.originalUrl);
-            }else{
+            } else {
               $location.path('/login');
             }
-          }else{
-            $location.path(next.originalUrl);
           }
 
-        }).catch(function(err) {
+        }).catch(function (err) {
           console.log(err);
         });
 
@@ -65,7 +65,7 @@
 
   function TokenService($localStorage, $rootScope) {
     return {
-      'request': function(config) {
+      'request': function (config) {
         config.headers.token = $localStorage.token;
         return config;
       }
