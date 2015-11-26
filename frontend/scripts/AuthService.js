@@ -52,25 +52,9 @@
         }).catch(function(err) {
           console.log(err);
         });
-        //console.log(a);
-        //console.log(b);
+
       });
-      //if ($localStorage.token) {
-      //  return api('/authorized', {token: $localStorage.token})
-      //    .then(function () {
-      //      if ($localStorage.token) {
-      //        $rootScope.isAuthorized = true;
-      //      }
-      //    })
-      //    .catch(function (err) {
-      //      console.error(err);
-      //      $rootScope.isAuthorized = false;
-      //      $location.path('/');
-      //    });
-      //} else {
-      //  $rootScope.isAuthorized = false;
-      //  $location.path('/');
-      //}
+
     }
 
     function _logOut() {
