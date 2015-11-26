@@ -12,6 +12,7 @@ var UserSchema = new Schema({
   services    : [{
     login  : String,
     idp    : String,
+    balance: {type: Number, default: 0},
     email  : {type: String, default: 'support@mail.com'},
     options: [{
       method        : {type: String, default: 'get'},

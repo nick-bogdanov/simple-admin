@@ -34,17 +34,21 @@
     };
 
     this.removeService = function(id) {
-      AdminServices.remove
+      //AdminServices.remove
     };
 
     this.filterParam = function () {
-      var param = {};
+      var param;
 
       if ($scope.action) {
+        param = {};
         param[$scope.action.toLowerCase()] = $scope.search;
+      }else{
+         param = $scope.search;
       }
-
+      console.log(param);
       return param;
+
     };
 
     AdminServices.getServices().then(function(res) {
