@@ -26,7 +26,7 @@
     }
 
     function _remove(id) {
-      return api('/removeServive', {id: id});
+      return api('/removeService', {id: id});
     }
 
   }

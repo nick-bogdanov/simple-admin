@@ -9,6 +9,30 @@ module.exports = function (app) {
   var auth    = require('./controllers/users');
   var service = require('./controllers/services');
 
+  //session check
+  app.use(function (req, res, next) {
+    
+    if (req.headers.token && req.session.token) {
+
+      var id = codify.decrypt(req.headers.token, config.get('secret.id'));
+
+      auth.user.findUserById(id)
+        .then(function () {
+          req.body.userId = id;
+        })
+        .catch(function () {
+          req.body.userId = false;
+        })
+        .finally(function () {
+          next();
+        });
+    } else {
+      req.body.userId = false;
+      next();
+    }
+
+  });
+
   app.get('/', function (req, res) {
     res.render('index');
   });
@@ -56,21 +80,12 @@ module.exports = function (app) {
 
   app.post('/api/authorized', function (req, res) {
 
-    if (!req.session.token) {
-      log.info('token is not exist');
-      return res.json({success: false, extras: {message: 'User is not authorized'}});
-    }
-
-    if (req.headers.token) {
-      auth.user.findUserById(codify.decrypt(req.headers.token.toString(), config.get('secret.id'))).then(function (data) {
-        log.info(data);
-        res.json({authorized:true, message: data});
-      }).catch(function (err) {
-        log.error(err);
-        res.json(err);
-      });
-    }else{
-      res.json({authorized:false, extras: {message:'user is not authorized yet'}});
+    if (req.body.userId) {
+      log.info('User authorized');
+      res.json({authorized: true});
+    } else {
+      log.info('User not authorized');
+      res.json({authorized: false, extras: {message: 'user is not authorized yet'}});
     }
 
   });
@@ -86,16 +101,30 @@ module.exports = function (app) {
 
   app.post('/api/services/create', function (req, res) {
 
-    if (req.session.token) {
+    if (req.body.userId) {
 
-      var id = codify.decrypt(req.headers.token, config.get('secret.id'));
+      return service.createService(req.body.userId, req.body)
+        .then(function (data) {
+          log.info('service created:', data);
+          res.json({success: true, extras: {message: 'service created'}});
+        })
+        .catch(function (err) {
+          log.error(err);
+          res.json(err);
+        });
+    }
 
-      auth.user.findUserById(id)
-        .then(function () {
-          service.createService(id, req.body).then(function (data) {
-            log.info('service created:', data);
-            res.json({success: true, extras: {message: 'service created'}});
-          });
+    return res.json({success: false, extras: {message: 'error'}});
+
+  });
+
+  app.post('/api/services/get-services', function (req, res) {
+
+    if (req.body.userId) {
+
+      service.getServices(req.body.userId)
+        .then(function (data) {
+          res.json({success: true, extras: {message: 'data fetched', services: data.extras.data}});
         })
         .catch(function (err) {
           log.error(err);
@@ -105,26 +134,17 @@ module.exports = function (app) {
 
   });
 
-  app.post('/api/services/get-services', function(req, res) {
-
-    if (req.session.token) {
-
-      var id = codify.decrypt(req.headers.token, config.get('secret.id'));
-
-      auth.user.findUserById(id)
-        .then(function() {
-          service.getServices(id).then(function(data) {
-            log.info(data);
-            res.json({success: true, extras: {message: 'data fetched', services: data.extras.data}});
-          });
-        })
-        .catch(function(err) {
+  app.post('/api/services/removeService', function (req, res) {
+    if (req.body.userId) {
+      service.removeService(req.body.id)
+        .then(function (res) {
+          log.info(res);
+          res.json(res);
+        }).catch(function (err) {
           log.error(err);
           res.json(err);
         });
-
     }
-
   });
 
 };

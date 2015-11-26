@@ -43,7 +43,7 @@ exports.getServices = function(id) {
       }
 
       if (user) {
-        log.debug(user);
+        //log.debug(user);
         return resolve({succes: true, extras: {message: 'user list fetched', data: user.services}});
       }else{
         log.error('user not finded');
@@ -52,5 +52,9 @@ exports.getServices = function(id) {
 
     });
   });
+
+};
+
+exports.removeService = function(id) {
 
 };
