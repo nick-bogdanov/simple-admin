@@ -33,6 +33,10 @@
       console.log(id);
     };
 
+    this.removeService = function(id) {
+      AdminServices.remove
+    };
+
     this.filterParam = function () {
       var param = {};
 

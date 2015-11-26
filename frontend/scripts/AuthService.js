@@ -1,9 +1,12 @@
 (function (angular) {
   "use strict";
 
-  angular.module('todo').service('auth', AuthService);
+  angular.module('todo')
+    .service('auth', AuthService)
+    .service('injectTokenService', TokenService);
 
   AuthService.$inject = ["$http", '$localStorage', '$rootScope', '$location'];
+  TokenService.$inject = ['$localStorage', '$rootScope'];
 
   function AuthService($http, $localStorage, $rootScope, $location) {
 
@@ -31,28 +34,58 @@
     }
 
     function _authorized() {
-      if ($localStorage.token) {
-        return api('/authorized', {token: $localStorage.token})
-          .then(function () {
-            if ($localStorage.token) {
-              $rootScope.isAuthorized = true;
+
+      $rootScope.$on('$routeChangeStart', function(event, next, current) {
+        api('/authorized').then(function(res) {
+          var authorized = $rootScope.isAuthorized = res.data.authorized;
+
+          if (!authorized) {
+            if (next.templateUrl === '/views/register' || next.templateUrl === '/views/login') {
+              $location.path(next.originalUrl);
+            }else{
+              $location.path('/login');
             }
-          })
-          .catch(function (err) {
-            console.error(err);
-            $rootScope.isAuthorized = false;
-            $location.path('/');
-          });
-      } else {
-        $rootScope.isAuthorized = false;
-        $location.path('/');
-      }
+          }else{
+            $location.path(next.originalUrl);
+          }
+
+        }).catch(function(err) {
+          console.log(err);
+        });
+        //console.log(a);
+        //console.log(b);
+      });
+      //if ($localStorage.token) {
+      //  return api('/authorized', {token: $localStorage.token})
+      //    .then(function () {
+      //      if ($localStorage.token) {
+      //        $rootScope.isAuthorized = true;
+      //      }
+      //    })
+      //    .catch(function (err) {
+      //      console.error(err);
+      //      $rootScope.isAuthorized = false;
+      //      $location.path('/');
+      //    });
+      //} else {
+      //  $rootScope.isAuthorized = false;
+      //  $location.path('/');
+      //}
     }
 
     function _logOut() {
       return api('/logout');
     }
 
+  }
+
+  function TokenService($localStorage, $rootScope) {
+    return {
+      'request': function(config) {
+        config.headers.token = $localStorage.token;
+        return config;
+      }
+    };
   }
 
 

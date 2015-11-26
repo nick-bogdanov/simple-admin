@@ -1,7 +1,7 @@
 (function (angular) {
   'use strict';
 
-  angular.module('todo', ['ngRoute', 'ngAnimate', 'ngStorage']).config(function ($routeProvider) {
+  angular.module('todo', ['ngRoute', 'ngAnimate', 'ngStorage']).config(function ($routeProvider, $httpProvider) {
 
     $routeProvider
       .when('/login', {
@@ -20,8 +20,11 @@
         controllerAs: 'cs'
       })
       .otherwise({
-        redirectTo: '/register'
+        redirectTo: '/services-lists'
       });
+
+    $httpProvider.interceptors.push('injectTokenService');
+
   }).run(function (auth) {
     auth.authorized();
   });

@@ -61,22 +61,27 @@ module.exports = function (app) {
       return res.json({success: false, extras: {message: 'User is not authorized'}});
     }
 
-    auth.user.findUserById(codify.decrypt(req.body.token.toString(), config.get('secret.id'))).then(function (data) {
-      log.info(data);
-      res.json({message: data});
-    }).catch(function (err) {
-      log.error(err);
-    });
+    if (req.headers.token) {
+      auth.user.findUserById(codify.decrypt(req.headers.token.toString(), config.get('secret.id'))).then(function (data) {
+        log.info(data);
+        res.json({authorized:true, message: data});
+      }).catch(function (err) {
+        log.error(err);
+        res.json(err);
+      });
+    }else{
+      res.json({authorized:false, extras: {message:'user is not authorized yet'}});
+    }
 
   });
 
   app.post('/api/logout', function (req, res) {
-    log.info(req.session);
-    log.info(req.session.token);
+
     req.session.destroy(function (err) {
       log.debug(err);
       res.json({message: 'session destroyed'});
     });
+
   });
 
   app.post('/api/services/create', function (req, res) {
