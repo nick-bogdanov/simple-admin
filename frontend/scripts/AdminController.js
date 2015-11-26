@@ -34,7 +34,7 @@
     };
 
     this.removeService = function(id) {
-      //AdminServices.remove
+      AdminServices.removeService(id);
     };
 
     this.filterParam = function () {

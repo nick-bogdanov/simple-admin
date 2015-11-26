@@ -88,7 +88,7 @@ module.exports = function (app) {
 
     if (req.session.token) {
 
-      var id = codify.decrypt(req.body.token, config.get('secret.id'));
+      var id = codify.decrypt(req.headers.token, config.get('secret.id'));
 
       auth.user.findUserById(id)
         .then(function () {
@@ -109,7 +109,7 @@ module.exports = function (app) {
 
     if (req.session.token) {
 
-      var id = codify.decrypt(req.body.token, config.get('secret.id'));
+      var id = codify.decrypt(req.headers.token, config.get('secret.id'));
 
       auth.user.findUserById(id)
         .then(function() {

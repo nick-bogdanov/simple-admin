@@ -5,10 +5,10 @@
     .service('auth', AuthService)
     .service('injectTokenService', TokenService);
 
-  AuthService.$inject  = ["$http", '$localStorage', '$rootScope', '$location'];
-  TokenService.$inject = ['$localStorage', '$rootScope'];
+  AuthService.$inject  = ["$http", '$rootScope', '$location'];
+  TokenService.$inject = ['$localStorage'];
 
-  function AuthService($http, $localStorage, $rootScope, $location) {
+  function AuthService($http, $rootScope, $location) {
 
     var api = function (path, data) {
       return $http.post('/api' + path, data);
@@ -63,7 +63,7 @@
 
   }
 
-  function TokenService($localStorage, $rootScope) {
+  function TokenService($localStorage) {
     return {
       'request': function (config) {
         config.headers.token = $localStorage.token;

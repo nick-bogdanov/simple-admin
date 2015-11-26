@@ -3,9 +3,9 @@
   angular.module('todo')
     .service('AdminServices', AdminServices);
 
-  AdminServices.$inject = ['$http', '$localStorage'];
+  AdminServices.$inject = ['$http'];
 
-  function AdminServices($http, $localStorage) {
+  function AdminServices($http) {
 
     var api = function (path, data) {
       return $http.post('/api/services' + path, data);
@@ -18,16 +18,15 @@
     };
 
     function _create(data) {
-      data.token = $localStorage.token;
       return api('/create', data);
     }
 
     function _getServices() {
-      return api('/get-services', {token: $localStorage.token});
+      return api('/get-services');
     }
 
-    function _remove() {
-      return api('/removeServive', {token: $localStorage.token});
+    function _remove(id) {
+      return api('/removeServive', {id: id});
     }
 
   }
