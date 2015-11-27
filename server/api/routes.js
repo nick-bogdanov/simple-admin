@@ -11,7 +11,7 @@ module.exports = function (app) {
 
   //session check
   app.use(function (req, res, next) {
-    
+
     if (req.headers.token && req.session.token) {
 
       var id = codify.decrypt(req.headers.token, config.get('secret.id'));
@@ -136,10 +136,10 @@ module.exports = function (app) {
 
   app.post('/api/services/removeService', function (req, res) {
     if (req.body.userId) {
-      service.removeService(req.body.id)
-        .then(function (res) {
-          log.info(res);
-          res.json(res);
+      service.removeService(req.body.userId, req.body.id)
+        .then(function (result) {
+          log.info('service removed',result);
+          res.json(result);
         }).catch(function (err) {
           log.error(err);
           res.json(err);

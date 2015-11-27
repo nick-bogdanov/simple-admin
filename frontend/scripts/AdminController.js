@@ -1,14 +1,14 @@
 (function (angular) {
   "use strict";
 
-  angular.module('todo').controller('CreateService', CreateService);
+  angular.module('todo').controller('ServiceListController', ServiceListController);
 
-  CreateService.$inject = ['$scope', 'AdminServices'];
+  ServiceListController.$inject = ['$scope', 'AdminServices'];
 
-  function CreateService($scope, AdminServices) {
+  function ServiceListController($scope, AdminServices) {
 
     this.services = [];
-    var _this = this;
+    var _this     = this;
 
     this.createService = function (form) {
 
@@ -29,32 +29,44 @@
       }
     };
 
-    this.editService = function(id) {
+    this.editService = function (id) {
       console.log(id);
     };
 
-    this.removeService = function(id) {
-      AdminServices.removeService(id);
+    this.removeService = function (id) {
+      AdminServices.removeService(id).then(function (result) {
+
+        if (result.data.success) {
+
+          _this.services = _.remove(_this.services, function (n) {
+            return n._id !== id;
+          });
+
+        }
+
+      }).catch(function (err) {
+        console.err(err);
+      });
     };
 
     this.filterParam = function () {
       var param;
 
       if ($scope.action) {
-        param = {};
+        param                              = {};
         param[$scope.action.toLowerCase()] = $scope.search;
-      }else{
-         param = $scope.search;
+      } else {
+        param = $scope.search;
       }
-      console.log(param);
+
       return param;
 
     };
 
-    AdminServices.getServices().then(function(res) {
+    AdminServices.getServices().then(function (res) {
       console.log(res.data.extras.services);
       _this.services = res.data.extras.services;
-    }).catch(function() {
+    }).catch(function () {
       console.error(err);
     });
 

@@ -2,6 +2,7 @@
 var log     = require('../../lib/logger');
 var Promise = require('bluebird');
 var User    = require('../../models/user');
+var ErrResponse = require('../../errors/responses');
 
 exports.user = {
   register: function (data) {
@@ -9,24 +10,22 @@ exports.user = {
     return new Promise(function (resolve, reject) {
 
       return User.findOne({'email': data.useremail}, function (err, user) {
-        //log.debug(user);
+
         if (err) {
           log.error(err);
-          return reject({success: false, extras: {message: 'Some error on register user', info: err}});
+          return reject(ErrResponse.queryError({info:err}));
         }
 
         if (!user) {
-          //log.info(data);
           return resolve(data);
         } else {
-          return reject({success: false, extras: {message: 'Some error on register user'}});
+          return reject(ErrResponse.userExists());
         }
 
       });
 
     })
       .then(function (userData) {
-
 
         var newUser = User({
           name : userData.username,
@@ -38,7 +37,7 @@ exports.user = {
         return newUser.save(function (err, user, numAffected) {
           if (err) {
             log.error(err);
-            return Promise.reject({success: false, extras: {message: 'Email already exist', info: err}});
+            return Promise.reject(ErrResponse.queryError({info: err}));
           }
           if (numAffected === 1) {
             log.info('registered');
@@ -48,7 +47,7 @@ exports.user = {
       })
       .catch(function (err) {
         log.error(err);
-        return Promise.reject({success: false, extras: {message: 'Error on creating user', info: err}});
+        return err;
       });
 
   },
@@ -60,13 +59,13 @@ exports.user = {
         //log.debug(user);
         if (err) {
           log.error('error on getting by id', err);
-          return reject({success: false, extras: {message: 'Error on finding user', info: err}});
+          return reject(ErrResponse.queryError({info: err}));
         }
 
         if (user) {
           return resolve({success: true, extras: {message: 'User was finded'}});
         } else {
-          return reject({success: false, extras: {message: 'User is not exist', info: err}});
+          return reject(ErrResponse.dataError({info: err}));
         }
 
       });
@@ -86,7 +85,7 @@ exports.user = {
         if (user) {
           return resolve(user);
         } else {
-          return reject({success: false, extras: {message: 'user not find'}});
+          return ErrResponse.dataError();
         }
 
       });
@@ -99,7 +98,7 @@ exports.user = {
         if (data.passwordHash === hash) {
           return {success: true, extras: {message: 'user find', id: data.id}};
         } else {
-          return {success: false, extras: {message: 'password are incorrect'}};
+          return ErrResponse.incorrectPassword();
         }
 
       })

@@ -16,7 +16,7 @@
       })
       .when('/services-lists', {
         templateUrl : '/views/services-list',
-        controller  : 'CreateService',
+        controller  : 'ServiceListController',
         controllerAs: 'cs'
       })
       .otherwise({

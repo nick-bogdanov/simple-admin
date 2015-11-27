@@ -90,6 +90,7 @@
   // Custom Globals
   "globals"       : {
     "angular": false,
-    "console": false
+    "console": false,
+    "_": true
   }
 }
