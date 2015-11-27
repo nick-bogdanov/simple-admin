@@ -20,7 +20,7 @@ app.set('views', path.join(__dirname, config.get('public.views')));
 app.set('view engine', config.get('app.viewEngine'));
 
 // uncomment after placing your favicon in /public
-app.use(favicon(path.join(__dirname, '../', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'favicon.ico')));
 app.use(logger('dev'));
 
 app.use(bodyParser.json());

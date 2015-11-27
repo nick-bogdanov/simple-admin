@@ -1,7 +1,9 @@
 (function (angular) {
   "use strict";
 
-  angular.module('todo').controller('ServiceListController', ServiceListController);
+  angular.module('todo')
+    .controller('ServiceListController', ServiceListController)
+    .controller('EditServiceController', EditServiceController);
 
   ServiceListController.$inject = ['$scope', 'AdminServices'];
 
@@ -27,10 +29,6 @@
         });
 
       }
-    };
-
-    this.editService = function (id) {
-      console.log(id);
     };
 
     this.removeService = function (id) {
@@ -64,11 +62,14 @@
     };
 
     AdminServices.getServices().then(function (res) {
-      console.log(res.data.extras.services);
+      //console.log(res.data.extras.services);
       _this.services = res.data.extras.services;
-    }).catch(function () {
+    }).catch(function (err) {
       console.error(err);
     });
+
+  }
+  function EditServiceController() {
 
   }
 

@@ -17,7 +17,12 @@
       .when('/services-lists', {
         templateUrl : '/views/services-list',
         controller  : 'ServiceListController',
-        controllerAs: 'cs'
+        controllerAs: 'vm'
+      })
+      .when('/services-lists/edit/:id', {
+        templateUrl : '/views/service-edit',
+        controller  : 'EditServiceController',
+        controllerAs: 'vm'
       })
       .otherwise({
         redirectTo: '/services-lists'

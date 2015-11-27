@@ -1,0 +1,109 @@
+div.container
+   .row
+      .col-sm-6
+         h4 Редактировать сервис
+      .col-sm-6
+         a.btn.btn-success.pull-right Сохранить
+
+   p.help-block.clearfix
+
+   .row
+      .panel.panel-default
+            .panel-heading.clearfix Данные про IDP
+            .panel-body
+               form.form-horizontal
+
+                  .form-group.col-sm-6
+                     label.control-label.col-sm-4 Логин:
+                     .col-sm-5
+                        input.form-control
+
+                  .form-group.col-sm-6
+                     label.control-label.col-sm-7 Метод получения DLR:
+                     .col-sm-5
+                        select.form-control
+                           option get
+                           option post
+                           option put
+                           option delete
+                           option head
+
+                  .form-group.col-sm-6
+                     label.control-label.col-sm-4 Набор данных в DIR:
+                     .col-sm-5
+                        select.form-control
+                           option get
+                           option post
+                           option put
+                           option delete
+                           option head
+
+                  .form-group.col-sm-6
+                     label.control-label.col-sm-7 URL для уведомления о статусе:
+                     .col-sm-5
+                        select.form-control
+                           option get
+                           option post
+                           option put
+                           option delete
+                           option head
+
+   .row
+      .panel.panel-default
+         .panel-heading.clearfix Финансы
+         .panel-body
+            form.form-horizontal
+
+               .form-group.col-sm-6
+                  label.control-label.col-sm-4 Минимальный баланс для отправки нотификаций:
+                  .col-sm-5
+                     input.form-control
+
+               .form-group.col-sm-6
+                  label.control-label.col-sm-7 Кредитный лимит партнера:
+                  .col-sm-5
+                     input.form-control
+
+
+               .form-group.col-sm-6
+                  label.control-label.col-sm-7 Набор данных в DIR:
+                  .col-sm-5
+                     select.form-control
+                        option get
+                        option post
+                        option put
+                        option delete
+                        option head
+
+               .form-group.col-sm-6
+                  label.control-label.col-sm-4 Банк у которого берутся ресурсы:
+                  .col-sm-5
+                     select.form-control
+                        option get
+                        option post
+                        option put
+                        option delete
+                        option head
+
+   .row
+      .panel.panel-default
+         .panel-heading.clearfix Текущий баланс: 25
+         .panel-body
+            form.form-horizontal
+               table.table.table-bordered
+                  thead: tr
+                     th.text-center Дата
+                     th.text-center Начисленно
+                     th.text-center Валюта
+                     th.text-center Коментарий
+                  tbody: tr
+                     td.text-center 2014-09-19 15:21:28
+                     td.text-center 100&nbsp;&nbsp;
+                        input
+                     td.text-center RUB&nbsp;&nbsp;
+                        select
+                           option RUB
+                           option USD
+                           option UAN
+                     td.text-center
+                        input
