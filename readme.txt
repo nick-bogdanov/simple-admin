@@ -6,7 +6,7 @@
 npm install
 
 для фронт енда
-cd ./client
+cd ./frontend
 bower install
 
 Для Бд необхимо иметь установленную MongoDB
