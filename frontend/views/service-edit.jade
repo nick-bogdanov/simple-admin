@@ -3,7 +3,7 @@ div.container
       .col-sm-6
          h4 Редактировать сервис
       .col-sm-6
-         a.btn.btn-success.pull-right Сохранить
+         a(ng-click='vm.saveServiceSettings(vm.service)').btn.btn-success.pull-right Сохранить
 
    p.help-block.clearfix
 
@@ -16,37 +16,29 @@ div.container
                   .form-group.col-sm-6
                      label.control-label.col-sm-4 Логин:
                      .col-sm-5
-                        input.form-control
+                        input(ng-model='vm.service.login').form-control
 
                   .form-group.col-sm-6
                      label.control-label.col-sm-7 Метод получения DLR:
                      .col-sm-5
-                        select.form-control
-                           option get
-                           option post
-                           option put
-                           option delete
-                           option head
+                        select(ng-model='vm.service.options.dlr').form-control
+                           option(value='get') get
+                           option(value='post') post
+                           option(value='put') put
+                           option(value='delete') delete
+                           option(value='head') head
 
                   .form-group.col-sm-6
                      label.control-label.col-sm-4 Набор данных в DIR:
                      .col-sm-5
-                        select.form-control
-                           option get
-                           option post
-                           option put
-                           option delete
-                           option head
+                        select(ng-model='vm.service.options.dir').form-control
+                           option(value='smpp') smpp
+                           option(value='other')  Другие
 
                   .form-group.col-sm-6
                      label.control-label.col-sm-7 URL для уведомления о статусе:
                      .col-sm-5
-                        select.form-control
-                           option get
-                           option post
-                           option put
-                           option delete
-                           option head
+                        input(ng-model='vm.service.options.url').form-control
 
    .row
       .panel.panel-default
@@ -57,37 +49,31 @@ div.container
                .form-group.col-sm-6
                   label.control-label.col-sm-4 Минимальный баланс для отправки нотификаций:
                   .col-sm-5
-                     input.form-control
+                     input(ng-model='vm.service.options.minBalance').form-control
 
                .form-group.col-sm-6
                   label.control-label.col-sm-7 Кредитный лимит партнера:
                   .col-sm-5
-                     input.form-control
+                     input(ng-model='vm.service.options.partnerLimit').form-control
 
 
                .form-group.col-sm-6
-                  label.control-label.col-sm-7 Набор данных в DIR:
+                  label.control-label.col-sm-7 Тип расчета курса:
                   .col-sm-5
-                     select.form-control
-                        option get
-                        option post
-                        option put
-                        option delete
-                        option head
+                     select(ng-model='vm.service.options.curseType').form-control
+                        option(value='everyday') Ежедневный
+                        option(value='onceInMonth') Раз в месяц
 
                .form-group.col-sm-6
-                  label.control-label.col-sm-4 Банк у которого берутся ресурсы:
+                  label.control-label.col-sm-4 Банк у которого берутся курсы:
                   .col-sm-5
-                     select.form-control
-                        option get
-                        option post
-                        option put
-                        option delete
-                        option head
+                     select(ng-model='vm.service.options.bank').form-control
+                        option(value='cbrf') CBRF
+                        option(value='privat') PrivatBank
 
    .row
       .panel.panel-default
-         .panel-heading.clearfix Текущий баланс: 25
+         .panel-heading.clearfix Текущий баланс: {{vm.service.options.currentBalance}}
          .panel-body
             form.form-horizontal
                table.table.table-bordered

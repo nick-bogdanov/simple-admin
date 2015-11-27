@@ -14,14 +14,17 @@ var UserSchema = new Schema({
     idp    : String,
     balance: {type: Number, default: 0},
     email  : {type: String, default: 'support@mail.com'},
-    options: [{
-      method        : {type: String, default: 'get'},
-      bank          : {type: String, default: 'CBRF'},
-      minBalance    : Number,
+    options: {
+      dlr           : {type: String, default: 'get'},
+      bank          : {type: String, default: 'cbrf'},
+      dir           : {type: String, default: 'smpp'},
+      minBalance    : {type: Number, default: 100},
+      partnerLimit  : {type: Number, default: 100},
       currentBalance: Number,
+      curseType     : {type: String, default: 'everyday'},
       url           : String,
       data          : String
-    }]
+    }
   }]
 });
 

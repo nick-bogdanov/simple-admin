@@ -30,3 +30,8 @@ exports.userExists = function (data) {
 exports.incorrectPassword = function (data) {
   return _response({message: errorResponses.incorrectPassword}, data || {});
 };
+
+exports.userNotExists = function (data) {
+  return _response({message: errorResponses.userNotExists}, data || {});
+};
+

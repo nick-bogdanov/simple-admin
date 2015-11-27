@@ -14,7 +14,10 @@ exports.createService = function (id, data) {
       $push: {
         services: {
           login: data.login,
-          idp  : data.idp
+          idp  : data.idp,
+          options: {
+            currentBalance: 0
+          }
         }
       }
     }, function (err, num) {
@@ -22,7 +25,7 @@ exports.createService = function (id, data) {
         log.error(err);
         return reject(ErrResponse.dataError({info: err}));
       }
-
+      log.info(num);
       if (num.ok) {
         return resolve({success: true});
       }
@@ -83,3 +86,57 @@ exports.removeService = function (userId, serviceId) {
 
   });
 };
+
+exports.getServiceSettings = function (_userId, serviceId) {
+
+  return new Promise(function (resolve, reject) {
+    return User.findOne({
+      _id: _userId
+    }, {
+      services: {
+        $elemMatch: {
+          _id: serviceId
+        }
+      }
+    }, function (err, user) {
+      if (err) {
+        return reject(ErrResponse.dataError({info: err}));
+      }
+      if (user) {
+        return resolve({success: true, extras: {services: user.services[0]}});
+      }
+
+      return reject(ErrResponse.dataError({info: err}));
+
+    });
+  });
+
+};
+
+exports.updateSettings = function (id, data) {
+
+  return new Promise(function (resolve, reject) {
+
+    return User.update({
+      "services._id": data._id
+    }, {
+      $set: {
+        "services.$": data
+      }
+    }, function (err, num) {
+      if (err) {
+        log.error(err);
+        return reject(ErrResponse.dataError({info: err}));
+      }
+      log.debug(num);
+      if (num.ok) {
+        return resolve({success: true});
+      }
+
+      return reject(ErrResponse.dataError({info: {err: err, num: num}}));
+
+    });
+
+  });
+};
+

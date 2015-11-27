@@ -3,6 +3,7 @@
 var log    = require('../lib/logger');
 var codify = require('../lib/codifyData');
 var config = require('config');
+var ErrResponse = require('../errors/responses');
 
 module.exports = function (app) {
 
@@ -49,19 +50,19 @@ module.exports = function (app) {
   app.post('/api/register', function (req, res) {
 
     auth.user.register(req.body).then(function (data) {
-
-      if (data) {
+      log.debug(data);
+      if (data._id) {
+        log.info(data._id);
         var token         = codify.encrypt(data._id.toString(), config.get('secret.id'));
         req.session.token = token;
 
-        return res.json({success: true, extras: {message: 'Регистрация прошла успешно.', token: token}});
+        return res.json({success: true, message: 'Регистрация прошла успешно.', token: token});
+      }else{
+        throw ErrResponse.userExists();
       }
-
-      throw new Error('Cant register');
-
     }).catch(function (err) {
       log.error(err);
-      res.json({success: false, extras: {message: 'User exist. Try again', info: err}});
+      res.json(err);
     });
 
   });
@@ -69,10 +70,18 @@ module.exports = function (app) {
   app.post('/api/login', function (req, res) {
 
     auth.user.login(req.body).then(function (response) {
-      var token         = codify.encrypt(response.extras.id.toString(), config.get('secret.id'));
-      req.session.token = token;
+      if (response.success) {
+        var token         = codify.encrypt(response.extras.id.toString(), config.get('secret.id'));
+        req.session.token = token;
+        res.json({success: true, message: 'Authorized', token: token});
 
-      res.json({success: true, extras: {message: 'Authorized', token: token}});
+      }else{
+        throw ErrResponse.userNotExists();
+      }
+
+    }).catch(function(err) {
+      log.error(err);
+      res.json(err);
     });
 
   });
@@ -85,7 +94,7 @@ module.exports = function (app) {
       res.json({authorized: true});
     } else {
       log.info('User not authorized');
-      res.json({authorized: false, extras: {message: 'user is not authorized yet'}});
+      res.json({authorized: false});
     }
 
   });
@@ -99,14 +108,14 @@ module.exports = function (app) {
 
   });
 
-  app.post('/api/services/create', function (req, res) {
+  app.post('/api/services/create-service', function (req, res) {
 
     if (req.body.userId) {
-
-      return service.createService(req.body.userId, req.body)
+      log.debug(req.body.data);
+      return service.createService(req.body.userId, req.body.data)
         .then(function (data) {
           log.info('service created:', data);
-          res.json({success: true, extras: {message: 'service created'}});
+          res.json({success: true, message: 'service created'});
         })
         .catch(function (err) {
           log.error(err);
@@ -114,7 +123,7 @@ module.exports = function (app) {
         });
     }
 
-    return res.json({success: false, extras: {message: 'error'}});
+    return ErrResponse.userNotExists();
 
   });
 
@@ -124,7 +133,7 @@ module.exports = function (app) {
 
       service.getServices(req.body.userId)
         .then(function (data) {
-          res.json({success: true, extras: {message: 'data fetched', services: data.extras.data}});
+          res.json({success: true, message: 'data fetched', services: data.extras.data});
         })
         .catch(function (err) {
           log.error(err);
@@ -147,4 +156,40 @@ module.exports = function (app) {
     }
   });
 
+  app.post('/api/services/get-settings', function(req, res) {
+
+    if (req.body.userId) {
+
+      service.getServiceSettings(req.body.userId, req.body.serviceId).then(function(data) {
+        log.debug(data);
+        res.json(data);
+      }).catch(function(err) {
+        log.error(err);
+        res.json(err);
+      });
+
+    }
+
+  });
+
+  app.post('/api/services/update-settings', function (req, res) {
+
+    if (req.body.userId) {
+      log.debug(req.body.data);
+      return service.updateSettings(req.body.userId, req.body.data)
+        .then(function (data) {
+          log.info('service created:', data);
+          res.json({success: true});
+        })
+        .catch(function (err) {
+          log.error(err);
+          res.json(err);
+        });
+    }
+
+    return ErrResponse.userNotExists();
+
+  });
+
 };
+

@@ -2,17 +2,23 @@ h3.text-center Авторизация
 
 form(name='loginForm', method='POST', autocomplete="off", ng-submit='vm.login(loginForm.$valid)', novalidate).enter-form
 
-   div.form-group
+   div(ng-class="{'has-error': loginForm.email.$invalid && vm.submitted}").form-group
       label Имейл
       input(name='email', ng-model='useremail', type='email', required, ng-maxlength="50").form-control
 
+      p(ng-if='loginForm.email.$invalid && vm.submitted').text-danger Неверный имейл
 
-   div.form-group
+
+   .form-group
       label Пароль
       input(name='password', ng-model='pass', type='password', required, ng-minlength='5', ng-maxlength="30").form-control
 
+      p(ng-if='loginForm.password.$error.minlength && vm.submitted').text-danger Пароль слишком короткий
 
 
-   div.form-group
+
+   .form-group
       button(type='submit').btn.btn-lg.btn-primary.btn-block
          span Войти
+
+   .alert.alert-danger(ng-if='vm.error') {{vm.error}}

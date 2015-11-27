@@ -14,11 +14,13 @@
     return {
       createService: _create,
       getServices  : _getServices,
-      removeService: _remove
+      removeService: _remove,
+      getSettings  : _getSettings,
+      updateSettings  : _update
     };
 
     function _create(data) {
-      return api('/create', data);
+      return api('/create-service', {data: data});
     }
 
     function _getServices() {
@@ -28,6 +30,16 @@
     function _remove(id) {
       return api('/removeService', {id: id});
     }
+
+    function _getSettings(serviceId) {
+      return api('/get-settings', {serviceId: serviceId});
+    }
+
+    function _update(data) {
+      return api('/update-settings', {data: data});
+    }
+
+
 
   }
 

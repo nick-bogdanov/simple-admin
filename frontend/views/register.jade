@@ -2,43 +2,45 @@ h3.text-center Регистрация
 
 form(name='registerForm', method='POST', autocomplete="off", ng-submit='vm.registerUser(registerForm.$valid)', novalidate).enter-form
 
-    div.form-group
+    .form-group
         label Логин
         input(name='name', ng-model='username', required, ng-minlength="2", ng-maxlength="15").form-control
 
-        p.text-danger(ng-if='registerForm.name.$error.minlength && !registerForm.name.$untouched') Имя слишком короткое.
-        p.text-danger(ng-if='registerForm.name.$error.maxlength && !registerForm.name.$untouched') Имя слишком долгое.
-        p.text-danger(ng-if='registerForm.name.$error.required && !registerForm.name.$untouched') Поле обязательно.
+        p.text-danger(ng-if='registerForm.name.$error.minlength && vm.submitted') Имя слишком короткое.
+        p.text-danger(ng-if='registerForm.name.$error.maxlength && vm.submitted') Имя слишком долгое.
+        p.text-danger(ng-if='registerForm.name.$error.required && vm.submitted') Поле обязательно.
 
-    div.form-group
+    .form-group
         label Имейл
         input(name='email', ng-model='useremail', type='email', required, ng-maxlength="50").form-control
 
-        p.text-danger(ng-if='registerForm.email.$invalid && !registerForm.email.$untouched') Введите верный пароль.
-        p.text-danger(ng-if='registerForm.email.$error.required && !registerForm.email.$untouched') Поле обязательно.
+        p.text-danger(ng-if='registerForm.email.$invalid && vm.submitted') Введите верный email.
+        p.text-danger(ng-if='registerForm.email.$error.required && vm.submitted') Поле обязательно.
 
-    div.form-group
+    .form-group
         label Пароль
         input(name='password', ng-model='pass', type='password', required, ng-minlength='5', ng-maxlength="30").form-control
 
 
-        p.text-danger(ng-if='registerForm.password.$error.minlength && !registerForm.password.$untouched')
+        p.text-danger(ng-if='registerForm.password.$error.minlength && vm.submitted')
             | Пароль короткий. Минимум 5 символов.
-        p.text-danger(ng-if='registerForm.password.$error.maxlength && !registerForm.password.$untouched')
+        p.text-danger(ng-if='registerForm.password.$error.maxlength && vm.submitted')
             | Пароль слишком долгий.
-        p.text-danger(ng-if='registerForm.password.$error.required && !registerForm.password.$untouched') Поле обязательно.
+        p.text-danger(ng-if='registerForm.password.$error.required && vm.submitted') Поле обязательно.
 
-    div.form-group
+    .form-group
         label Повторите пароль
         input(name='repassword', ng-model='reuserPass', type='password', required, ng-minlength='5', ng-maxlength="30").form-control
 
-        p.text-danger(ng-if='registerForm.repassword.$error.minlength && !registerForm.repassword.$untouched')
+        p.text-danger(ng-if='registerForm.repassword.$error.minlength && vm.submitted')
             | Пароль короткий. Минимум 5 символов.
-        p.text-danger(ng-if='registerForm.repassword.$error.maxlength && !registerForm.repassword.$untouched')
+        p.text-danger(ng-if='registerForm.repassword.$error.maxlength && vm.submitted')
             | Пароль слишком долгий.
-        p.text-danger(ng-if='registerForm.repassword.$error.required && !registerForm.repassword.$untouched') Поле обязательно.
-        p.text-danger(ng-if='(reuserPass !== pass) && !registerForm.repassword.$untouched') Пароли не сходятся.
+        p.text-danger(ng-if='registerForm.repassword.$error.required && vm.submitted') Поле обязательно.
+        p.text-danger(ng-if='(reuserPass !== pass) && vm.submitted') Пароли не сходятся.
 
-    div.form-group
+    .form-group
         button(type='submit').btn.btn-lg.btn-primary.btn-block
             span Зареєстрироватся
+
+    .alert-danger.alert(ng-if='vm.error') {{vm.error}}

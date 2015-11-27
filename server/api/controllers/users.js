@@ -83,9 +83,10 @@ exports.user = {
         }
 
         if (user) {
+          log.debug(user);
           return resolve(user);
         } else {
-          return ErrResponse.dataError();
+          return reject(ErrResponse.userNotExists());
         }
 
       });
@@ -96,9 +97,9 @@ exports.user = {
         var hash = user.createHash(_user.pass, data.passwordSalt);
 
         if (data.passwordHash === hash) {
-          return {success: true, extras: {message: 'user find', id: data.id}};
+          return Promise.resolve({success: true, extras: {message: 'user find', id: data.id}});
         } else {
-          return ErrResponse.incorrectPassword();
+          return Promise.reject(ErrResponse.incorrectPassword());
         }
 
       })
