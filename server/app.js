@@ -30,7 +30,9 @@ app.use(session(sessionOptions));
 
 app.use(express.static(path.join(__dirname, config.get('public.static'))));
 
-require('./api/routes')(app);
+require('./api/routes/all')(app);
+require('./api/routes/auth')(app);
+require('./api/routes/services')(app);
 
 mongoose.connect(config.get('db'));
 
