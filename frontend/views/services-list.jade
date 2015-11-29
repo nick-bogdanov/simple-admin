@@ -6,19 +6,20 @@ div.container
             tr
                 th(colspan='6')
                         .row
-                            form(name='addPerson', ng-submit='vm.createService(addPerson.$valid)').form-inline.col-lg-12
+                            form(name='addPerson', ng-submit='vm.createService(addPerson.$valid)').form-inline.col-lg-6
 
-                                .col-lg-2.form-group.input-group.input-group-sm
+                                .col-lg-4.form-group.input-group.input-group-sm
                                     span.input-group-addon Login
                                     input(ng-model='login', required).form-control
 
-                                .col-lg-2.col-lg-offset-1.form-group.input-group.input-group-sm
+                                .col-lg-4.col-lg-offset-1.form-group.input-group.input-group-sm
                                     span.input-group-addon IDP
                                     input(type='number', required, ng-model='idp').form-control
 
                                 .col-lg-2.col-lg-offset-1.form-group.input-group.input-group-sm
                                     button(type='submit').btn.btn-primary.btn-sm Создать
 
+                            form.form-inline.col-lg-6
                                 .input-group.input-group-sm.pull-right
                                     .input-group-btn(ng-class='{"open": open}')
                                         button(type='button').btn.btn-default  Поиск по:
