@@ -1,8 +1,6 @@
 'use strict';
 
 var log         = require('../../lib/logger');
-var codify      = require('../../lib/codifyData');
-var config      = require('config');
 var ErrResponse = require('../../errors/responses');
 
 var service = require('../controllers/services');
