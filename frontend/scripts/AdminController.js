@@ -24,7 +24,7 @@
         AdminServices.createService(service).then(function (res) {
           console.log(res);
           if (res.data.success) {
-            _this.services.push(service);
+            _this.services.push(res.data.result.service);
           }
         }).catch(function (err) {
           console.error(err);

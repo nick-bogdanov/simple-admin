@@ -3,34 +3,35 @@ var log         = require('../../lib/logger');
 var Promise     = require('bluebird');
 var User        = require('../../models/user');
 var ErrResponse = require('../../errors/responses');
+var _           = require('lodash');
 
 exports.createService = function (id, data) {
 
   return new Promise(function (resolve, reject) {
 
-    return User.update({
+    return User.findOneAndUpdate({
       _id: id
     }, {
       $push: {
         services: {
-          login: data.login,
-          idp  : data.idp,
+          login  : data.login,
+          idp    : data.idp,
           options: {
             currentBalance: 0
           }
         }
       }
-    }, function (err, num) {
+    }, {new: true}, function (err, inserted) {
       if (err) {
         log.error(err);
         return reject(ErrResponse.dataError({info: err}));
       }
-      log.info(num);
-      if (num.ok) {
-        return resolve({success: true});
+
+      if (inserted) {
+        return resolve({success: true, service: inserted.services.slice(-1)[0]});
       }
 
-      return reject(ErrResponse.dataError({info: {err: err, num: num}}));
+      return reject(ErrResponse.dataError({info: {err: err, num: inserted}}));
 
     });
 

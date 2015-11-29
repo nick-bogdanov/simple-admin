@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, config.get('public.static'))));
 
 require('./api/routes/all')(app);
 require('./api/routes/auth')(app);
-require('./api/routes/services')(app);
+require('./api/routes/service')(app);
 
 mongoose.connect(config.get('db'));
 
