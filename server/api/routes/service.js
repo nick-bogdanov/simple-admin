@@ -14,7 +14,7 @@ module.exports = function (app) {
       return service.createService(req.body.userId, req.body.data)
         .then(function (data) {
           if (data.success) {
-            res.json({success: true, message: 'service created', service: data});
+            res.json({success: true, message: 'service created', service: data.service});
           }
         })
         .catch(function (err) {
